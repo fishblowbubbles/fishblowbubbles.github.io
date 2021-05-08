@@ -3,12 +3,12 @@ import {
   maxOneReducer,
   minOneReducer,
   useToggleGroup,
-} from "hooks/useToggleGroup";
+} from "hooks";
 
 import { combineReducers } from "./helpers";
 
 type IUseRadioGroup = {
-  selected: string;
+  selectedValue: string;
   selectValue: (value: string) => void;
 };
 
@@ -19,12 +19,12 @@ export const useRadioGroup = (items: IRadioGroupItem[]): IUseRadioGroup => {
     combineReducers(minOneReducer, maxOneReducer)
   );
 
-  const selected = items[state.indexOf(true)].value;
+  const selectedValue = items[state.indexOf(true)].value;
 
   const selectValue = (value: string) => {
     const i = items.findIndex((item) => item.value === value);
     toggleIndex(i);
   };
 
-  return { selected, selectValue };
+  return { selectedValue, selectValue };
 };

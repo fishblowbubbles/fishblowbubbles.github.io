@@ -1,31 +1,28 @@
 import React from "react";
-import styled from "styled-components";
+
+import { useRadioGroup } from "hooks";
 
 export interface IRadioGroupItem {
   label: string;
   value: string;
 }
 
-interface IRadioGroupProps {
+interface IRadioGroupContentProps {
   items: IRadioGroupItem[];
   name: string;
   selectedValue: string;
   selectValue: (value: string) => void;
 }
 
-const Wrapper = styled.div``;
-
-const Item = styled.div``;
-
-export const RadioGroup: React.FC<IRadioGroupProps> = ({
+export const RadioGroupContent: React.FC<IRadioGroupContentProps> = ({
   items,
   name,
   selectedValue,
   selectValue,
 }) => (
-  <Wrapper>
+  <div>
     {items.map(({ label, value }) => (
-      <Item>
+      <div>
         <label htmlFor={value}>{label}</label>
         <input
           type="radio"
@@ -34,7 +31,16 @@ export const RadioGroup: React.FC<IRadioGroupProps> = ({
           checked={value === selectedValue}
           onChange={() => selectValue(value)}
         />
-      </Item>
+      </div>
     ))}
-  </Wrapper>
+  </div>
+);
+
+interface IRadioGroupProps {
+  items: IRadioGroupItem[];
+  name: string;
+}
+
+export const RadioGroup: React.FC<IRadioGroupProps> = ({ items, name }) => (
+  <RadioGroupContent items={items} name={name} {...useRadioGroup(items)} />
 );

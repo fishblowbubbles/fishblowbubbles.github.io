@@ -1,51 +1,46 @@
+import { Close as CloseIcon } from "grommet-icons";
 import React from "react";
 import styled from "styled-components";
 
-import { useToggle } from "hooks";
-import { AccordionContainer, IAccordionItem } from "components";
+import { Accordion, Button, IAccordionItem } from "components";
 
 interface IMenuProps {
   items: IAccordionItem[];
+  isOpen: boolean;
+  toggle: () => void;
 }
 
-const Wrapper = styled.div`
-  width: 200px;
-  height: 100vh;
-`
-
-const ToggleButton = styled.button`
+const MenuToggleButton = styled(Button)`
   position: absolute;
-  z-index: 10;
-  left: 0;
+  top: 0;
+  right: 0;
 `;
 
-const SlideOutPanel = styled.div`
-  height: 100%;
+const SlideOutPanel = styled.div<{ isOpen: boolean }>`
+  background: white;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  width: 300px;
+  height: 100vh;
 
   display: flex;
   flex-flow: column;
   align-items: center;
   justify-content: center;
 
-  background-color: black;
-
-  a {
-    color: white;
-    text-decoration: none;
-  }
+  transition: transform 0.2s ease-in-out;
+  transform: ${(props) =>
+    props.isOpen ? "translateX(0)" : "translateX(100vw)"};
 `;
 
-export const Menu: React.FC<IMenuProps> = ({ items }) => {
-  const { isActive: isOpen, toggle } = useToggle(false);
-
-  return (
-    <Wrapper>
-      <ToggleButton onClick={() => toggle()}>Menu Toggle</ToggleButton>
-      {isOpen && (
-        <SlideOutPanel>
-          <AccordionContainer items={items} />
-        </SlideOutPanel>
-      )}
-    </Wrapper>
-  );
-};
+export const Menu: React.FC<IMenuProps> = ({ items, isOpen, toggle }) => (
+  <SlideOutPanel isOpen={isOpen}>
+    <MenuToggleButton onClick={() => toggle()}>
+      <CloseIcon />
+    </MenuToggleButton>
+    <Accordion items={items} />
+  </SlideOutPanel>
+);

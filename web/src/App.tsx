@@ -1,25 +1,58 @@
+import { Menu as MenuIcon } from "grommet-icons"
 import React from "react";
-import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
+import { Route, Switch, useHistory, withRouter } from "react-router-dom";
+import styled from "styled-components";
 
-import { IAccordionItem, Menu } from "components";
+import { Button, Menu } from "components";
+import { Placeholder } from "pages";
+import { useToggle } from "hooks";
 
-const MenuItems: IAccordionItem[] = [
-  { toggle: <Link to="/">Home</Link>, disabled: true },
-  { toggle: <Link to="/portfolio">Portfolio</Link>, disabled: true },
-  { toggle: <Link to="/blog">Blog</Link>, disabled: true },
+const LINKS = [
+  { to: "/", label: "home" },
+  { to: "/portfolio", label: "portfolio" },
+  { to: "/blog", label: "blog" },
 ];
 
-const App: React.FC = () => (
-  <div className="App">
-    <BrowserRouter>
-      <Menu items={MenuItems} />
-      <Switch>
-        <Route path="/portfolio">Portfolio</Route>
-        <Route path="/blog">Blog</Route>
-        <Route path="/">Home</Route>
-      </Switch>
-    </BrowserRouter>
-  </div>
-);
+const MenuToggleButton = styled(Button)`
+  position: fixed;
+  top: 0;
+  right: 0;
+`;
 
-export default App;
+const App: React.FC = () => {
+  const { push } = useHistory();
+  const { isActive: isMenuOpen, toggle: toggleMenu } = useToggle(false);
+
+  const handleLinkClick = (to: string) => {
+    toggleMenu();
+    push(to);
+  };
+
+  return (
+    <div className="App">
+      <MenuToggleButton onClick={() => toggleMenu()}>
+        <MenuIcon />
+      </MenuToggleButton>
+      <Menu
+        items={LINKS.map(({ to, label }) => ({
+          Component: <h2 onClick={() => handleLinkClick(to)}>{label}</h2>,
+        }))}
+        isOpen={isMenuOpen}
+        toggle={toggleMenu}
+      />
+      <Switch>
+        <Route path="/portfolio">
+          <Placeholder />
+        </Route>
+        <Route path="/blog">
+          <Placeholder />
+        </Route>
+        <Route path="/">
+          <Placeholder />
+        </Route>
+      </Switch>
+    </div>
+  );
+};
+
+export default withRouter(App);

@@ -1,31 +1,28 @@
 import React from "react";
-import styled from "styled-components";
+
+import { useCheckboxGroup } from "hooks";
 
 export interface ICheckboxGroupItem {
   label: string;
   value: string;
 }
 
-interface ICheckboxGroupProps {
+interface ICheckboxGroupContentProps {
   items: ICheckboxGroupItem[];
   name: string;
-  checkedValues?: string[]
-  toggleValue: (value: string) => void
+  checkedValues?: string[];
+  toggleValue: (value: string) => void;
 }
 
-const Container = styled.div``;
-
-const Item = styled.div``;
-
-export const CheckboxGroup: React.FC<ICheckboxGroupProps> = ({
+export const CheckboxGroupContent: React.FC<ICheckboxGroupContentProps> = ({
   items,
   name,
   checkedValues = [],
   toggleValue,
 }) => (
-  <Container>
+  <div>
     {items.map(({ label, value }) => (
-      <Item>
+      <div>
         <input
           type="checkbox"
           name={name}
@@ -34,7 +31,23 @@ export const CheckboxGroup: React.FC<ICheckboxGroupProps> = ({
           onChange={() => toggleValue(value)}
         />
         <label htmlFor={value}>{label}</label>
-      </Item>
+      </div>
     ))}
-  </Container>
+  </div>
+);
+
+interface ICheckboxGroupProps {
+  items: ICheckboxGroupItem[];
+  name: string;
+}
+
+export const CheckboxGroup: React.FC<ICheckboxGroupProps> = ({
+  items,
+  name,
+}) => (
+  <CheckboxGroupContent
+    items={items}
+    name={name}
+    {...useCheckboxGroup(items)}
+  />
 );

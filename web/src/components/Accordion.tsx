@@ -1,39 +1,38 @@
-import { useToggleGroup } from "hooks";
 import React from "react";
 
+import { Button } from "components";
+import { useToggleGroup } from "hooks";
+
 export interface IAccordionItem {
-  toggle: JSX.Element;
+  Component: JSX.Element;
   content?: JSX.Element;
-  disabled?: boolean;
 }
 
-interface IAccordionProps {
+interface IAccordionContentProps {
   items: IAccordionItem[];
   state: boolean[];
   toggleIndex: (index: number) => void;
 }
 
-export const Accordion: React.FC<IAccordionProps> = ({
+export const AccordionContent: React.FC<IAccordionContentProps> = ({
   items,
   state,
   toggleIndex,
 }) => (
   <div>
-    {items.map((item, i) => (
+    {items.map(({ Component, content }, i) => (
       <div key={i}>
-        <button onClick={() => toggleIndex(i)} disabled={item.disabled}>
-          {item.toggle}
-        </button>
-        {state[i] && item.content}
+        <Button onClick={() => toggleIndex(i)}>{Component}</Button>
+        {state[i] && content}
       </div>
     ))}
   </div>
 );
 
-interface IAccordionContainerProps {
+interface IAccordionProps {
   items: IAccordionItem[];
 }
 
-export const AccordionContainer: React.FC<IAccordionContainerProps> = ({
-  items,
-}) => <Accordion items={items} {...useToggleGroup(items.length)} />;
+export const Accordion: React.FC<IAccordionProps> = ({ items }) => (
+  <AccordionContent items={items} {...useToggleGroup(items.length)} />
+);

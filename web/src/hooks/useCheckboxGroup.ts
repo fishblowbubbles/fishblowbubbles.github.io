@@ -1,5 +1,5 @@
 import { ICheckboxGroupItem } from "components";
-import { useToggleGroup } from "hooks/useToggleGroup";
+import { useToggleGroup } from "hooks";
 
 type IUseCheckboxGroup = {
   checkedValues: string[];

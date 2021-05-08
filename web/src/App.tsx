@@ -1,19 +1,25 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Link, Route, Switch } from "react-router-dom";
 
-import { useToggle } from "./hooks";
+import { IAccordionItem, Menu } from "components";
 
-const App: React.FC = () => {
-  const [isMenuOpen, toggleMenu] = useToggle(false);
+const MenuItems: IAccordionItem[] = [
+  { toggle: <Link to="/">Home</Link>, disabled: true },
+  { toggle: <Link to="/portfolio">Portfolio</Link>, disabled: true },
+  { toggle: <Link to="/blog">Blog</Link>, disabled: true },
+];
 
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <button onClick={() => toggleMenu()} />
-        {isMenuOpen && <div>This is the side menu</div>}
-      </BrowserRouter>
-    </div>
-  );
-};
+const App: React.FC = () => (
+  <div className="App">
+    <BrowserRouter>
+      <Menu items={MenuItems} />
+      <Switch>
+        <Route path="/portfolio">Portfolio</Route>
+        <Route path="/blog">Blog</Route>
+        <Route path="/">Home</Route>
+      </Switch>
+    </BrowserRouter>
+  </div>
+);
 
 export default App;

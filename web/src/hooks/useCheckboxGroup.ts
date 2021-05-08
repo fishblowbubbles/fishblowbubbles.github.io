@@ -1,10 +1,16 @@
 import { ICheckboxGroupItem } from "components";
 import { useToggleGroup } from "hooks/useToggleGroup";
 
-type IUseCheckboxGroup = [string[], (value: string) => void, (isChecked: boolean) => void];
+type IUseCheckboxGroup = {
+  checkedValues: string[];
+  toggleValue: (value: string) => void;
+  setAll: (isChecked: boolean) => void;
+};
 
-export const useCheckboxGroup = (items: ICheckboxGroupItem[]): IUseCheckboxGroup => {
-  const [state, toggleIndex, setAll] = useToggleGroup(items.length);
+export const useCheckboxGroup = (
+  items: ICheckboxGroupItem[]
+): IUseCheckboxGroup => {
+  const { state, toggleIndex, setAll } = useToggleGroup(items.length);
 
   let checkedValues: string[] = [];
 
@@ -19,5 +25,5 @@ export const useCheckboxGroup = (items: ICheckboxGroupItem[]): IUseCheckboxGroup
     toggleIndex(i);
   };
 
-  return [checkedValues, toggleValue, setAll];
+  return { checkedValues, toggleValue, setAll };
 };

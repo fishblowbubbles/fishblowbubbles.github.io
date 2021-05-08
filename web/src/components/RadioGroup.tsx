@@ -13,7 +13,7 @@ interface IRadioGroupProps {
   selectValue: (value: string) => void;
 }
 
-const Container = styled.div``;
+const Wrapper = styled.div``;
 
 const Item = styled.div``;
 
@@ -23,7 +23,7 @@ export const RadioGroup: React.FC<IRadioGroupProps> = ({
   selectedValue,
   selectValue,
 }) => (
-  <Container>
+  <Wrapper>
     {items.map(({ label, value }) => (
       <Item>
         <label htmlFor={value}>{label}</label>
@@ -36,5 +36,5 @@ export const RadioGroup: React.FC<IRadioGroupProps> = ({
         />
       </Item>
     ))}
-  </Container>
+  </Wrapper>
 );

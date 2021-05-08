@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-type IUseToggle = [isActive: boolean, toggle: () => void];
+type IUseToggle = { isActive: boolean; toggle: () => void };
 
 export const useToggle = (initialState = false): IUseToggle => {
   const [isActive, setIsActive] = useState(initialState);
@@ -9,5 +9,5 @@ export const useToggle = (initialState = false): IUseToggle => {
     setIsActive(!isActive);
   };
 
-  return [isActive, toggle];
+  return { isActive, toggle };
 };

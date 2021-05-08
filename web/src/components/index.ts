@@ -1,3 +1,4 @@
 export * from "./Accordion";
 export * from "./CheckboxGroup";
-export * from "./RadioGroup"
+export * from "./Menu";
+export * from "./RadioGroup";

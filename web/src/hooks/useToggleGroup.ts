@@ -87,18 +87,18 @@ const initialize = ({
   return initialState;
 };
 
-type IUseToggleGroup = [
-  boolean[],
-  (index: number) => void,
-  (isActive: boolean) => void
-];
+type IUseToggleGroup = {
+  state: boolean[];
+  toggleIndex: (index: number) => void;
+  setAll: (isActive: boolean) => void;
+};
 
 type IUseToggleGroupReducer = [boolean[], Dispatch<IToggleGroupAction>];
 
 export const useToggleGroup = (
   length: number,
-  reducer: IToggleGroupReducer = (state, action) => undefined,
-  activeIndices: number[] = []
+  activeIndices: number[] = [],
+  reducer: IToggleGroupReducer = (state, action) => undefined
 ): IUseToggleGroup => {
   const [state, dispatch]: IUseToggleGroupReducer = useReducer(
     combineReducers(reducer, defaultReducer),
@@ -114,5 +114,5 @@ export const useToggleGroup = (
     dispatch({ type: ACTION_TYPE.SET_ALL, isActive });
   };
 
-  return [state, toggleIndex, setAll];
+  return { state, toggleIndex, setAll };
 };

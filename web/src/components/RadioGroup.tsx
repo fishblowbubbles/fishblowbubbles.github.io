@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useRadioGroup } from "hooks";
+import { useRadioGroup } from "../hooks";
 
 export interface IRadioGroupItem {
   label: string;
@@ -39,8 +39,11 @@ export const RadioGroupContent: React.FC<IRadioGroupContentProps> = ({
 interface IRadioGroupProps {
   items: IRadioGroupItem[];
   name: string;
+  render: (props: IRadioGroupContentProps) => JSX.Element;
 }
 
-export const RadioGroup: React.FC<IRadioGroupProps> = ({ items, name }) => (
-  <RadioGroupContent items={items} name={name} {...useRadioGroup(items)} />
-);
+export const RadioGroup: React.FC<IRadioGroupProps> = ({
+  items,
+  name,
+  render,
+}) => render({ items, name, ...useRadioGroup(items) });

@@ -1,9 +1,9 @@
-import { IRadioGroupItem } from "components";
+import { IRadioGroupItem } from "../components";
 import {
   maxOneReducer,
   minOneReducer,
   useToggleGroup,
-} from "hooks";
+} from "./useToggleGroup";
 
 import { combineReducers } from "./helpers";
 

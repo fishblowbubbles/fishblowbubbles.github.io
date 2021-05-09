@@ -1,6 +1,6 @@
 import React from "react";
 
-import { useCheckboxGroup } from "hooks";
+import { useCheckboxGroup } from "../hooks";
 
 export interface ICheckboxGroupItem {
   label: string;
@@ -39,15 +39,11 @@ export const CheckboxGroupContent: React.FC<ICheckboxGroupContentProps> = ({
 interface ICheckboxGroupProps {
   items: ICheckboxGroupItem[];
   name: string;
+  render: (props: ICheckboxGroupContentProps) => JSX.Element;
 }
 
 export const CheckboxGroup: React.FC<ICheckboxGroupProps> = ({
   items,
   name,
-}) => (
-  <CheckboxGroupContent
-    items={items}
-    name={name}
-    {...useCheckboxGroup(items)}
-  />
-);
+  render,
+}) => render({ items, name, ...useCheckboxGroup(items) });

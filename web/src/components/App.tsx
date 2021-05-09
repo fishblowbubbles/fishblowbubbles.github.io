@@ -1,11 +1,12 @@
-import { Menu as MenuIcon } from "grommet-icons"
+import { Menu as MenuIcon } from "grommet-icons";
 import React from "react";
 import { Route, Switch, useHistory, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import { Button, Menu } from "components";
-import { Placeholder } from "pages";
-import { useToggle } from "hooks";
+import { Button } from "./Button";
+import { Menu } from "./Menu";
+import { Placeholder } from "../pages";
+import { useToggle } from "../hooks";
 
 const LINKS = [
   { to: "/", label: "home" },
@@ -55,4 +56,4 @@ const App: React.FC = () => {
   );
 };
 
-export default withRouter(App);
+export const AppWithRouter = withRouter(App);

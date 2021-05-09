@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Button } from "components";
-import { useToggleGroup } from "hooks";
+import { Button } from "../components";
+import { useToggleGroup } from "../hooks";
 
 export interface IAccordionItem {
   Component: JSX.Element;
   content?: JSX.Element;
 }
 
-interface IAccordionContentProps {
+type IAccordionContentProps = {
   items: IAccordionItem[];
   state: boolean[];
   toggleIndex: (index: number) => void;
@@ -31,8 +31,8 @@ export const AccordionContent: React.FC<IAccordionContentProps> = ({
 
 interface IAccordionProps {
   items: IAccordionItem[];
+  render: (props: IAccordionContentProps) => JSX.Element;
 }
 
-export const Accordion: React.FC<IAccordionProps> = ({ items }) => (
-  <AccordionContent items={items} {...useToggleGroup(items.length)} />
-);
+export const Accordion: React.FC<IAccordionProps> = ({ items, render }) =>
+  render({ items, ...useToggleGroup(items.length) });

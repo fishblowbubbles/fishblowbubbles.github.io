@@ -2,7 +2,8 @@ import { Close as CloseIcon } from "grommet-icons";
 import React from "react";
 import styled from "styled-components";
 
-import { Accordion, Button, IAccordionItem } from "components";
+import { Accordion, AccordionContent, IAccordionItem } from "./Accordion";
+import { Button } from "./Button";
 
 interface IMenuProps {
   items: IAccordionItem[];
@@ -41,6 +42,9 @@ export const Menu: React.FC<IMenuProps> = ({ items, isOpen, toggle }) => (
     <MenuToggleButton onClick={() => toggle()}>
       <CloseIcon />
     </MenuToggleButton>
-    <Accordion items={items} />
+    <Accordion
+      items={items}
+      render={(props) => <AccordionContent {...props} />}
+    />
   </SlideOutPanel>
 );

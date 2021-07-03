@@ -1,0 +1,40 @@
+button {
+  color: #ffffff;
+  min-height: 2rem;
+  min-width: 2rem;
+}
+
+button:hover,
+button:focus {
+  cursor: pointer;
+  outline: none;
+}
+
+button:hover.button--secondary .button__label,
+button:focus.button--secondary .button__label {
+  border-bottom: 1px solid white;
+  margin-bottom: -1px;
+}
+
+.button--primary {
+  background: #4056f4;
+}
+
+.button--primary svg {
+  stroke: white !important;
+}
+
+.button--secondary,
+.button--icon {
+  background: none;
+}
+
+.button__icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.button__label {
+  margin: 0 1rem;
+}

@@ -1,0 +1,25 @@
+.menu {
+  --padding: 1rem;
+  --width: 200px;
+
+  align-items: center;
+  background: #4056f4;
+  display: flex;
+  height: 100vh;
+  left: 0;
+  padding: var(--padding);
+  position: fixed;
+  top: 0;
+  transition: all 0.2s ease-in-out;
+  width: var(--width);
+}
+
+.menu__close {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.menu--hide {
+  transform: translateX(calc(-1 * var(--width) - 2 * var(--padding)));
+}

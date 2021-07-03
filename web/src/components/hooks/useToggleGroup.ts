@@ -1,34 +1,24 @@
-import { Dispatch, useReducer } from "react";
+import { useReducer } from 'react';
 
-import { combineReducers } from "./helpers";
+import { combineReducers } from './helpers';
 
 enum ACTION_TYPE {
-  TOGGLE_INDEX = "toggle_index",
-  SET_ALL = "set_all",
+  TOGGLE_INDEX = 'toggle_index',
+  SET_ALL = 'set_all',
 }
 
-type IToggleIndexAction = {
-  type: ACTION_TYPE.TOGGLE_INDEX;
-  index: number;
+type IToggleGroupAction = {
+  type: ACTION_TYPE;
+  payload: any;
 };
 
-type ISetAllAction = {
-  type: ACTION_TYPE.SET_ALL;
-  isActive: boolean;
-};
-
-type IToggleGroupAction = IToggleIndexAction | ISetAllAction;
-
-type IToggleGroupReducer = (
-  state: boolean[],
-  action: IToggleGroupAction
-) => boolean[] | undefined;
+type IToggleGroupReducer = (state: boolean[], action: IToggleGroupAction) => boolean[] | undefined;
 
 const defaultReducer: IToggleGroupReducer = (state, action) => {
   switch (action.type) {
     case ACTION_TYPE.TOGGLE_INDEX:
       return state.map((isActive, i) => {
-        if (i === action.index) {
+        if (i === action.payload) {
           return !isActive;
         }
 
@@ -36,7 +26,7 @@ const defaultReducer: IToggleGroupReducer = (state, action) => {
       });
 
     case ACTION_TYPE.SET_ALL:
-      return state.map(() => action.isActive);
+      return state.map(() => action.payload);
 
     default:
       return state;
@@ -45,7 +35,7 @@ const defaultReducer: IToggleGroupReducer = (state, action) => {
 
 export const minOneReducer: IToggleGroupReducer = (state, action) => {
   if (action.type === ACTION_TYPE.TOGGLE_INDEX) {
-    if (state[action.index]) {
+    if (state[action.payload]) {
       const activeCount = state.filter(Boolean).length;
 
       if (activeCount === 1) {
@@ -58,7 +48,7 @@ export const minOneReducer: IToggleGroupReducer = (state, action) => {
 export const maxOneReducer: IToggleGroupReducer = (state, action) => {
   if (action.type === ACTION_TYPE.TOGGLE_INDEX) {
     return state.map((_, i) => {
-      if (i !== action.index) {
+      if (i !== action.payload) {
         return false;
       }
 
@@ -87,31 +77,27 @@ const initialize = ({
   return initialState;
 };
 
-type IUseToggleGroup = {
-  state: boolean[];
-  toggleIndex: (index: number) => void;
-  setAll: (isActive: boolean) => void;
-};
-
-type IUseToggleGroupReducer = [boolean[], Dispatch<IToggleGroupAction>];
-
 export const useToggleGroup = (
   length: number,
   activeIndices: number[] = [],
-  reducer: IToggleGroupReducer = (state, action) => undefined
-): IUseToggleGroup => {
-  const [state, dispatch]: IUseToggleGroupReducer = useReducer(
+  reducer: IToggleGroupReducer = () => undefined
+): {
+  state: boolean[];
+  toggleIndex: (index: number) => void;
+  setAll: (isActive: boolean) => void;
+} => {
+  const [state, dispatch] = useReducer(
     combineReducers(reducer, defaultReducer),
     { length, activeIndices },
     initialize
   );
 
   const toggleIndex = (index: number) => {
-    dispatch({ type: ACTION_TYPE.TOGGLE_INDEX, index });
+    dispatch({ type: ACTION_TYPE.TOGGLE_INDEX, payload: index });
   };
 
   const setAll = (isActive: boolean) => {
-    dispatch({ type: ACTION_TYPE.SET_ALL, isActive });
+    dispatch({ type: ACTION_TYPE.SET_ALL, payload: isActive });
   };
 
   return { state, toggleIndex, setAll };
